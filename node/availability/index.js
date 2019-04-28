@@ -31,7 +31,7 @@ const availability = async () => {
             // clean up openings, organize by advisor
             toPairs, // convert to [Datetime, AdvisorId]
             sortBy(nth(0)), // sort by datetime
-            reduceBy((xs, [x]) => [...xs, x], [], nth(1)), // group by advisor
+            reduceBy((slots, [slot]) => [...slots, slot], [], nth(1)), // group by advisor
             toPairs, // convert to [AdvisorId, Array<Datetime>]
             map(([advisor, slots]) => ({ advisor, slots })) // turn it into an object
           )(openings),

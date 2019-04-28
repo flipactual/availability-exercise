@@ -5,11 +5,14 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon ./start",
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@hapi/joi": "^15.0.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.16.4",
@@ -26,6 +29,7 @@
     "eslint-plugin-import": "^2.17.2",
     "eslint-plugin-jest": "^22.5.1",
     "eslint-plugin-prettier": "^3.0.1",
-    "nock": "^10.0.6"
+    "nock": "^10.0.6",
+    "prettier": "^1.17.0"
   }
 }
