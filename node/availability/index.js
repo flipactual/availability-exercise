@@ -1,5 +1,5 @@
 const got = require('got');
-const { map, nth, pipe, reduceBy, toPairs } = require('ramda');
+const { map, nth, pipe, reduceBy, sortBy, toPairs } = require('ramda');
 
 const STORE = require('../store');
 const omitBooked = require('./omitBooked');
@@ -24,11 +24,13 @@ const availability = async () => {
         // }>
         omitBooked(STORE),
         toPairs(), // convert to [date, slots]
+        sortBy(nth(0)), // sort by date
         map(([date, openings]) => ({
           date, // save date as a property
           openings: pipe(
             // clean up openings, organize by advisor
             toPairs, // convert to [Datetime, AdvisorId]
+            sortBy(nth(0)), // sort by datetime
             reduceBy((xs, [x]) => [...xs, x], [], nth(1)), // group by advisor
             toPairs, // convert to [AdvisorId, Array<Datetime>]
             map(([advisor, slots]) => ({ advisor, slots })) // turn it into an object
