@@ -1,10 +1,13 @@
+jest.mock('../store', () => ({ push: jest.fn() }));
 jest.mock('../availability');
 
 const availability = require('../availability');
+const STORE = require('../store');
 
 const book = require('./');
 
 describe('book', () => {
+  beforeEach(jest.resetAllMocks);
   it('returns a successfully booked time', async () => {
     availability.mockResolvedValueOnce({
       data: [
@@ -47,6 +50,12 @@ describe('book', () => {
               },
             }
         `);
+    expect(STORE.push).toHaveBeenLastCalledWith({
+      advisor: '335698',
+      date: '2019-04-28',
+      pupil: 'Flip',
+      slot: '2019-04-28T17:00:00-04:00',
+    });
   });
   it('returns an error when data is bad', async () => {
     availability.mockResolvedValueOnce({
@@ -64,6 +73,7 @@ describe('book', () => {
                                 "error": [ValidationError: child "slot" fails because ["slot" is required]],
                               }
                     `);
+    expect(STORE.push).not.toHaveBeenCalled();
   });
   it('returns an error when slot does not exist', async () => {
     availability.mockResolvedValueOnce({
@@ -93,5 +103,6 @@ describe('book', () => {
         "error": "Slot with 325699 at 2019-04-28T10:00:00-04:00 does not exist or is not available",
       }
     `);
+    expect(STORE.push).not.toHaveBeenCalled();
   });
 });
