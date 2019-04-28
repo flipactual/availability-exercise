@@ -1,20 +1,19 @@
-const express = require("express");
-const cors = require("cors");
-const bodyParser = require("body-parser");
+const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+
+const availability = require('./availability');
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-app.get("/today", (req, res) => {
-    res.send({
-        today: today()
-    });
+app.get('/availability', async (req, res) => {
+  res.send(await availability());
 });
 
-function today() {
-    return new Date().toLocaleDateString();
-}
+app.post('/book', async (req, res) => {
+  res.send('Got a POST request');
+});
 
-app.today = today;
 module.exports = app;
