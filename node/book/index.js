@@ -6,7 +6,6 @@ const availability = require('../availability');
 
 const validate = query =>
   Joi.validate(query, {
-    date: Joi.string().required(),
     slot: Joi.string().required(),
     advisor: Joi.string().required(),
     pupil: Joi.string().required(),
@@ -14,8 +13,6 @@ const validate = query =>
 
 const hasOpenSlot = (query, data) => {
   return pipe(
-    find(propEq('date', query.date)),
-    propOr([], 'openings'),
     find(propEq('advisor', query.advisor)),
     propOr([], 'slots'),
     includes(query.slot)
