@@ -10,6 +10,11 @@ const BASE = 'https://www.thinkful.com';
 const PATH = '/api/advisors/availability';
 
 describe('availability', () => {
+  afterEach(() => {
+    // Because data thrashing
+    availability.clearCache();
+  });
+
   describe('outage', () => {
     nock(BASE)
       .get(PATH)
